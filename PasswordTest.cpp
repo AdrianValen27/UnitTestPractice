@@ -18,84 +18,191 @@ TEST(PasswordTest, smoke_test)
 {
     ASSERT_TRUE( 1 == 1 );
 }
-TEST(PasswordTest1, single_letter_password)
+TEST(PasswordTest, single_letter_password1)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("Z");
-	ASSERT_EQ(1,actual);
+	ASSERT_EQ(0,actual);
 }
-TEST(PasswordTest2, single_letter_password)
+TEST(PasswordTest, single_letter_password2)
 {
     Password my_password;
-	int actual = my_password.count_leading_characters("ZZzabc");
-	ASSERT_EQ(2,actual);
+	int actual = my_password.count_leading_characters("Zzzabc");
+	ASSERT_EQ(0,actual);
 }
-TEST(PasswordTest3, single_letter_password)
+TEST(PasswordTest, single_letter_password3)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("aaBBcc");
 	ASSERT_EQ(2,actual);
 }
-TEST(PasswordTest4, single_letter_password)
+TEST(PasswordTest, single_letter_password4)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("AAzy");
 	ASSERT_EQ(2,actual);
 }
-TEST(PasswordTest5, single_letter_password)
+TEST(PasswordTest, single_letter_password5)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("abcDDD");
-	ASSERT_EQ(1,actual);
+	ASSERT_EQ(0,actual);
 }
-TEST(PasswordTest6, single_letter_password)
+TEST(PasswordTest, single_letter_password6)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("AABBCCDD");
 	ASSERT_EQ(2,actual);
 }
-TEST(PasswordTest7, single_letter_password)
+TEST(PasswordTest, single_letter_password7)
 {
     Password my_password;
 	int actual = my_password.count_leading_characters("!!!!!!!!");
 	ASSERT_EQ(8,actual);
 }
+TEST(PasswordTest, single_letter_password8)
+{
+    Password my_password;
+	int actual = my_password.count_leading_characters("!!!   ");
+	ASSERT_EQ(3,actual);
+}
+TEST(PasswordTest, single_letter_password9)
+{
+    Password my_password;
+	int actual = my_password.count_leading_characters("abc   ");
+	ASSERT_EQ(0,actual);
+}
+TEST(PasswordTest, single_letter_password10)
+{
+    Password my_password;
+	int actual = my_password.count_leading_characters("");
+	ASSERT_EQ(0,actual);
+}
+TEST(PasswordTest, single_letter_password11)
+{
+    Password my_password;
+	int actual = my_password.count_leading_characters("AAAAbcd-1234");
+	ASSERT_EQ(4,actual);
+}
+TEST(PasswordTest, single_letter_password12)
+{
+    Password my_password;
+	int actual = my_password.count_leading_characters("aabcd1234567");
+	ASSERT_EQ(2,actual);
+}
 
 
 
-TEST(PasswordTest_1, single_letter_password)
+TEST(PasswordTest, mixed_case_1)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("ABCD");
 	ASSERT_EQ(false,actual);
 }
-TEST(PasswordTest_2, single_letter_password)
+TEST(PasswordTest, mixed_case_2)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("abcd");
 	ASSERT_EQ(false,actual);
 }
-TEST(PasswordTest_3, single_letter_password)
+TEST(PasswordTest, mixed_case_3)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("!!!!");
 	ASSERT_EQ(false,actual);
 }
-TEST(PasswordTest_4, single_letter_password)
+TEST(PasswordTest, mixed_case_4)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("__&&");
 	ASSERT_EQ(false,actual);
 }
-TEST(PasswordTest_5, single_letter_password)
+TEST(PasswordTest, mixed_case_5)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("!aA!!_");
 	ASSERT_EQ(true,actual);
 }
-TEST(PasswordTest_6, single_letter_password)
+TEST(PasswordTest, mixed_case_6)
 {
     Password my_password;
 	int actual = my_password.has_mixed_case("______");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, mixed_case_7)
+{
+    Password my_password;
+	int actual = my_password.has_mixed_case("");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, mixed_case_8)
+{
+    Password my_password;
+	int actual = my_password.has_mixed_case("ABCD1234");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, mixed_case_9)
+{
+    Password my_password;
+	int actual = my_password.has_mixed_case("abcd1234");
+	ASSERT_EQ(false,actual);
+}
+
+
+TEST(PasswordTest, set_1) {
+	Password my_password;
+	my_password.set("");
+	bool actual = my_password.authenticate("");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, set_2) {
+	Password my_password;
+	my_password.set("Tomato95926!");
+	bool actual = my_password.authenticate("Tomato95926!");
+	ASSERT_EQ(true,actual);
+}
+TEST(PasswordTest, set_3) {
+	Password my_password;
+	my_password.set("hello");
+	bool actual = my_password.authenticate("hello");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, set_4) {
+	Password my_password;
+	my_password.set("ChicoCA-95926");
+	bool actual = my_password.authenticate("ChicoCA-95926");
+	ASSERT_EQ(true,actual);
+}
+TEST(PasswordTest, set_5) {
+	Password my_password;
+	my_password.set("chicoca-95926");
+	bool actual = my_password.authenticate("chicoca-95926");
+	ASSERT_EQ(false,actual);
+}
+
+
+TEST(PasswordTest, authenticate_1) {
+	Password my_password;
+	bool actual = my_password.authenticate("ChicoCA-95929");
+	ASSERT_EQ(true,actual);
+}
+TEST(PasswordTest, authenticate_2) {
+	Password my_password;
+	bool actual = my_password.authenticate("chicoca-95929");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, authenticate_3) {
+	Password my_password;
+	bool actual = my_password.authenticate("");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, authenticate_4) {
+	Password my_password;
+	bool actual = my_password.authenticate("CHICOCA-95929");
+	ASSERT_EQ(false,actual);
+}
+TEST(PasswordTest, authenticate_5) {
+	Password my_password;
+	bool actual = my_password.authenticate("AABBCCDD-12345");
 	ASSERT_EQ(false,actual);
 }
