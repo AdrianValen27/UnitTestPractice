@@ -10,13 +10,22 @@ using std::string;
   'z' and any ASCII characters are allowed.
 */
 int Password::count_leading_characters(string phrase){
-  int repetition = 1;
+  if(phrase.length() == 0) {
+    return 0;
+  }
+
+  int repetition = 0;
   int index = 0;
 
   while( index < phrase.length()-1 && phrase[index] == phrase[index+1] ){
     repetition++;
     index++;
   }
+
+  if(repetition > 0) {
+    repetition++;
+  }
+
   return repetition;
 }
 
@@ -25,6 +34,9 @@ int Password::count_leading_characters(string phrase){
   at least one lower-case letter
   */
   bool Password::has_mixed_case(string phrase) {
+    if(phrase.length() == 0) {
+      return false;
+    }
     bool hasUpper, hasLower = false;
     for(int i = 0; i < phrase.length(); i++) {
       if(isupper(phrase[i])) {
@@ -44,7 +56,8 @@ int Password::count_leading_characters(string phrase){
   constructor sets the default password to "ChicoCA-95929"
   */
   Password::Password() {
-    set("ChicoCA-95929");
+    //set("ChicoCA-95929");
+    pass_history.push_back("ChicoCA-95929");
   }
 
   /*
@@ -56,11 +69,18 @@ int Password::count_leading_characters(string phrase){
     4. It was not a previous password in the history
   */
   void Password::set(string phrase) {
-    if(phrase.length() >= 8 && count_leading_characters(phrase) <= 3 && has_mixed_case(phrase)) {
-      for(int i = 0; i < pass_history.size(); i++) {
-        if(pass_history[i] == phrase) {
-          return;
-        }
+    if(phrase.length() < 8) {
+      return;
+    }
+    if(count_leading_characters(phrase) > 3) {
+      return;
+    }
+    if(!has_mixed_case(phrase)) {
+      return;
+    }
+    for(int i = 0; i < pass_history.size(); i++) {
+      if(pass_history[i] == phrase) {
+        return;
       }
     }
     pass_history.push_back(phrase);
@@ -85,4 +105,5 @@ int Password::count_leading_characters(string phrase){
  * 3) ./PasswordTest
  * 4) gcov Password.cpp
  * 5) inspect the Password.cpp.gcov file
+ * 6) gcov Password.cpp -bc
  */
