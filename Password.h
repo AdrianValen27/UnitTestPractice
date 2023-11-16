@@ -18,13 +18,13 @@ public:
   end of the string). The function is case-sensitive so 'Z' is different than
   'z' and any ASCII characters are allowed.
   */
-  int count_leading_characters(string);
+  int count_leading_characters(string phrase);
 
   /*
   returns whether the phrase has both at least one upper-case letter and
   at least one lower-case letter
   */
-  bool has_mixed_case(string);
+  bool has_mixed_case(string phrase);
 
   /*
   constructor sets the default password to "ChicoCA-95929"
@@ -39,13 +39,13 @@ public:
     3. It has mixed case (at least one upper case and at least one lower case)
     4. It was not a previous password in the history
   */
-  void set(string);
+  void set(string phrase);
 
   /*
   receives a string and authenticates it against the latest password in the
   pass_history, returning true for an exact match or false when it does not match
   or if a password has not been set.
   */
-  bool authenticate(string);
+  bool authenticate(string phrase);
 };
 #endif
