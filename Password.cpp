@@ -10,20 +10,17 @@ using std::string;
   'z' and any ASCII characters are allowed.
 */
 int Password::count_leading_characters(string phrase){
-  if(phrase.length() == 0) {
+  if(phrase.empty()) {
     return 0;
   }
 
   int repetition = 0;
-  int index = 0;
+  char c = phrase[0];
 
-  while( index < phrase.length()-1 && phrase[index] == phrase[index+1] ){
-    repetition++;
-    index++;
-  }
-
-  if(repetition > 0) {
-    repetition++;
+  for(int i = 1; i < phrase.length(); i++) {
+    if(c == phrase[i]) {
+      repetition++;
+    }
   }
 
   return repetition;
@@ -34,7 +31,8 @@ int Password::count_leading_characters(string phrase){
   at least one lower-case letter
   */
   bool Password::has_mixed_case(string phrase) {
-    if(phrase.length() == 0) {
+    //phrases of length 0 and 1 cannot be both an upper-case and lower-case letter
+    if(phrase.length() < 2) {
       return false;
     }
     bool hasUpper, hasLower = false;
@@ -56,8 +54,7 @@ int Password::count_leading_characters(string phrase){
   constructor sets the default password to "ChicoCA-95929"
   */
   Password::Password() {
-    //set("ChicoCA-95929");
-    pass_history.push_back("ChicoCA-95929");
+    set("ChicoCA-95929");
   }
 
   /*
@@ -101,9 +98,10 @@ int Password::count_leading_characters(string phrase){
 /**
  * Commands to run to test gcov:
  * 1) docker run -v "$(pwd):/usr/src" -it gtest sh
- * 2) make clean & make
+ * 2) make clean && make
  * 3) ./PasswordTest
  * 4) gcov Password.cpp
  * 5) inspect the Password.cpp.gcov file
  * 6) gcov Password.cpp -bc
+ * 7) make clean && make && ./PasswordTest && gcov Password.cpp -bc
  */
